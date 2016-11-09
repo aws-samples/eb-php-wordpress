@@ -45,20 +45,53 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 4. Extract the configuration files over the WordPress installation
 
         ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.0.zip
+         creating: .ebextensions/
+        inflating: .ebextensions/dev.config  
+        inflating: .ebextensions/efs-create.config  
+        inflating: .ebextensions/efs-mount.config  
+        inflating: .ebextensions/loadbalancer-sg.config  
+        inflating: .ebextensions/wordpress.config  
+        inflating: LICENSE                 
+        inflating: README.md               
+        inflating: wp-config.php          
 
 ## Create an Elastic Beanstalk environment
 
 1. Configure a local EB CLI repository with the PHP platform. Choose a [supported region](http://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region) that is close to you.
 
-        ~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-2
+        ~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-
+        Application wordpress-beanstalk has been created.
 
 2. Configure SSH. Create a key that Elastic Beanstalk will assign to the EC2 instances in your environment to allow you to connect to them later. You can also choose an existing key pair if you have the private key locally.
 
-        ~/wordpress-beanstalk$ eb ssh --setup
+        ~/wordpress-beanstalk$ eb init
+        Do you want to set up SSH for your instances?
+        (y/n): y
+
+        Select a keypair.
+        1) [ Create new KeyPair ]
+        (default is 1): 1
+
+        Type a keypair name.
+        (Default is aws-eb): beanstalk-wordpress
 
 3. Create an Elastic Beanstalk environment with a MySQL database.
 
         ~/wordpress-beanstalk$ eb create wordpress-beanstalk --sample --database
+        Enter an RDS DB username (default is "ebroot"): 
+        Enter an RDS DB master password: 
+        Retype password to confirm: 
+        Environment details for: wordpress-beanstalk
+          Application name: wordpress-beanstalk
+          Region: us-west-2
+          Deployed Version: Sample Application
+          Environment ID: e-nrx24yzgmw
+          Platform: 64bit Amazon Linux 2016.09 v2.2.0 running PHP 7.0
+          Tier: WebServer-Standard
+          CNAME: UNKNOWN
+          Updated: 2016-11-01 12:20:27.730000+00:00
+        Printing Status:
+        INFO: createEnvironment is starting.
 
 ## Networking configuration
 Modify the configuration files in the .ebextensions folder with the IDs of your [default VPC and subnets](https://console.aws.amazon.com/vpc/home#subnets:filter=default), and [your public IP address](https://www.google.com/search?q=what+is+my+ip). 
