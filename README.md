@@ -22,22 +22,43 @@ $ export PATH=~/.local/bin:$PATH
 $ export PATH=~/Library/Python/3.4/bin:$PATH
 ```
 ###### Windows
-Add `%USERPROFILE%\AppData\Roaming\Python\Scripts` to your PATH variable. Search for **Edit environment variables for your account.** in the Start menu.
+Add `%USERPROFILE%\AppData\Roaming\Python\Scripts` to your PATH variable. Search for **Edit environment variables for your account** in the Start menu.
 
 If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html).
 
-## Download and extract WordPress and the configuration files
+## Set up your project directory
 
-```
-~$ curl https://wordpress.org/wordpress-4.6.1.tar.gz -o wordpress.tar.gz
-~$ curl https://github.com/awslabs/eb-php-wordpress/releases/download/v1.0/eb-php-wordpress-v1.zip -o eb-php-wordpress.zip
-~$tar -xvf wordpress.tar.gz && mv wordpress wordpress-beanstalk && cd wordpress-beanstalk
-~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-2
-~/wordpress-beanstalk$ eb ssh --setup
-~/wordpress-beanstalk$ eb create wordpress-beanstalk --sample --database
-(choose database username/password, CTRL+C to exit once creation is in-progress)
-~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.0.zip
-```
+1. Download WordPress.
+
+        ~$ curl https://wordpress.org/wordpress-4.6.1.tar.gz -o wordpress.tar.gz
+
+2. Download the configuration files in this repository
+
+        ~$ curl https://github.com/awslabs/eb-php-wordpress/releases/download/v1.0/eb-php-wordpress-v1.zip -o eb-php-wordpress.zip
+
+3. Extract WordPress and change the name of the folder
+
+        ~$ tar -xvf wordpress.tar.gz
+        ~$ mv wordpress wordpress-beanstalk
+        ~$ cd wordpress-beanstalk
+
+4. Extract the configuration files over the WordPress installation
+
+        ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.0.zip
+
+## Create an Elastic Beanstalk environment
+
+1. Configure a local EB CLI repository with the PHP platform. Choose a [supported region](http://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region) that is close to you.
+
+        ~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-2
+
+2. Configure SSH. Create a key that Elastic Beanstalk will assign to the EC2 instances in your environment to allow you to connect to them later. You can also choose an existing key pair if you have the private key locally.
+
+        ~/wordpress-beanstalk$ eb ssh --setup
+
+3. Create an Elastic Beanstalk environment with a MySQL database.
+
+        ~/wordpress-beanstalk$ eb create wordpress-beanstalk --sample --database
 
 ## Networking configuration
 Modify the configuration files in the .ebextensions folder with the IDs of your [default VPC and subnets](https://console.aws.amazon.com/vpc/home#subnets:filter=default), and [your public IP address](https://www.google.com/search?q=what+is+my+ip). 
@@ -50,7 +71,7 @@ Deploy the project code to your Elastic Beanstalk environment.
 
 First, confirm that your environment is `Ready` with `eb status`. Environment creation takes about 15 minutes due to the RDS DB instance provisioning time.
 
-```
+```Shell
 ~/wordpress-beanstalk$ eb status
 ~/wordpress-beanstalk$ eb deploy
 ```
@@ -59,13 +80,13 @@ First, confirm that your environment is `Ready` with `eb status`. Environment cr
 
 This project includes a configuration file (`loadbalancer-sg.config`) that creates a security group and assigns it to the environment's load balancer, using the IP address that you configured in `ssh.config` to restrict HTTP access on port 80 to connections from your network. Otherwise, an outside party could potentially connect to your site before you have installed WordPress and configured your admin account.
 
-You can [view the related SGs in the EC2 console](https://console.aws.amazon.com/ec2/v2/home#SecurityGroups:search=wordpress-beanstalk)
+You can [view the related SGs in the EC2 console](https://console.aws.amazon.com/ec2/v2/home#SecurityGroups:search=wordpress-beanstalk). In the top right corner, choose the region in which you created your environment.
 
 ## Install WordPress
 
 Open your site in a browser.
 
-```
+```Shell
 ~/wordpress-beanstalk$ eb open
 ```
 
@@ -83,7 +104,7 @@ The hash salt can be any value but shouldn't be stored in source control. Use `e
 
     AUTH_KEY, SECURE_AUTH_KEY, LOGGED_IN_KEY, NONCE_KEY, AUTH_SALT, SECURE_AUTH_SALT, NONCE_SALT
 
-```
+```Shell
 ~/wordpress-beanstalk$ eb setenv AUTH_KEY=randomnumbersandletters89237492374
 ~/wordpress-beanstalk$ eb setenv SECURE_AUTH_KEY=ah24h3drfh97623ljkhsdf293t5fghks
 ...
@@ -92,20 +113,24 @@ The hash salt can be any value but shouldn't be stored in source control. Use `e
 Setting the properties on the environment directly by using the EB CLI or console overrides the values in `wordpress.config`.
 
 Remove the custom load balancer configuration to open the site to the Internet.
-```
+
+```Shell
 ~/wordpress-beanstalk$ rm .ebextensions/loadbalancer-sg.config
 ~/wordpress-beanstalk$ eb deploy
 ```
 
-When the deployment completes, open the site.
+Scale up to run the site on multiple instances for high availability.
+```Shell
+~/wordpress-beanstalk$ eb scale 3
 ```
+
+When the update completes, open the site.
+
+```Shell
 ~/wordpress-beanstalk$ eb open
 ```
 
-Finally, scale up to run the site on multiple instances for high availability.
-```
-~/wordpress-beanstalk$ eb scale 3
-```
+Refresh the site several times to verify that all instances are reading from the EFS file system. Create posts and upload files to confirm functionality.
 
 # Backup
 
