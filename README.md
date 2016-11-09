@@ -1,4 +1,5 @@
 # Deploying WordPress on Elastic Beanstalk
+These instructions were tested with WordPress 4.6.1
 
 ## Install the EB CLI
 
@@ -6,10 +7,22 @@ The EB CLI integrates with Git and simplifies the process of creating environmen
 
 If you have pip, use it to install the EB CLI.
 
-```
+```Shell
 $ pip install --user --upgrade awsebcli
+```
+
+Add the local install location to your OS's path variable.
+
+###### Linux
+```Shell
 $ export PATH=~/.local/bin:$PATH
 ```
+###### OS-X
+```Shell
+$ export PATH=~/Library/Python/3.4/bin:$PATH
+```
+###### Windows
+Add `%USERPROFILE%\AppData\Roaming\Python\Scripts` to your PATH variable. Search for **Edit environment variables for your account.** in the Start menu.
 
 If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html).
 
