@@ -18,13 +18,13 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 ```
 ~$ curl https://wordpress.org/wordpress-4.6.1.tar.gz -o wordpress.tar.gz
 ~$ curl https://github.com/awslabs/eb-php-wordpress/releases/download/v1.0/eb-php-wordpress-v1.zip -o eb-php-wordpress.zip
-
 ~$tar -xvf wordpress.tar.gz && mv wordpress wordpress-beanstalk && cd wordpress-beanstalk
 ~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-2
 ~/wordpress-beanstalk$ eb ssh --setup
 ~/wordpress-beanstalk$ eb create wordpress-beanstalk --sample --database
 (choose database username/password, CTRL+C to exit once creation is in-progress)
 ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.0.zip
+```
 
 ## Networking configuration
 Modify the configuration files in the .ebextensions folder with the IDs of your [default VPC and subnets](https://console.aws.amazon.com/vpc/home#subnets:filter=default), and [your public IP address](https://www.google.com/search?q=what+is+my+ip). 
