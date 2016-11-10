@@ -32,17 +32,17 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
         ~$ curl https://wordpress.org/wordpress-4.6.1.tar.gz -o wordpress.tar.gz
 
-2. Download the configuration files in this repository
+2. Download the configuration files in this repository.
 
         ~$ curl https://github.com/awslabs/eb-php-wordpress/releases/download/v1.0/eb-php-wordpress-v1.zip -o eb-php-wordpress.zip
 
-3. Extract WordPress and change the name of the folder
+3. Extract WordPress and change the name of the folder.
 
         ~$ tar -xvf wordpress.tar.gz
         ~$ mv wordpress wordpress-beanstalk
         ~$ cd wordpress-beanstalk
 
-4. Extract the configuration files over the WordPress installation
+4. Extract the configuration files over the WordPress installation.
 
         ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress.zip
          creating: .ebextensions/
