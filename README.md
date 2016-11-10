@@ -44,7 +44,7 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
 4. Extract the configuration files over the WordPress installation
 
-        ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.0.zip
+        ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress.zip
          creating: .ebextensions/
         inflating: .ebextensions/dev.config
         inflating: .ebextensions/efs-create.config
