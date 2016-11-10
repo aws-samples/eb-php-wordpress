@@ -46,14 +46,14 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
         ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.0.zip
          creating: .ebextensions/
-        inflating: .ebextensions/dev.config  
-        inflating: .ebextensions/efs-create.config  
-        inflating: .ebextensions/efs-mount.config  
-        inflating: .ebextensions/loadbalancer-sg.config  
-        inflating: .ebextensions/wordpress.config  
-        inflating: LICENSE                 
-        inflating: README.md               
-        inflating: wp-config.php          
+        inflating: .ebextensions/dev.config
+        inflating: .ebextensions/efs-create.config
+        inflating: .ebextensions/efs-mount.config
+        inflating: .ebextensions/loadbalancer-sg.config
+        inflating: .ebextensions/wordpress.config
+        inflating: LICENSE
+        inflating: README.md
+        inflating: wp-config.php
 
 ## Create an Elastic Beanstalk environment
 
@@ -78,9 +78,9 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 3. Create an Elastic Beanstalk environment with a MySQL database.
 
         ~/wordpress-beanstalk$ eb create wordpress-beanstalk --sample --database
-        Enter an RDS DB username (default is "ebroot"): 
-        Enter an RDS DB master password: 
-        Retype password to confirm: 
+        Enter an RDS DB username (default is "ebroot"):
+        Enter an RDS DB master password:
+        Retype password to confirm:
         Environment details for: wordpress-beanstalk
           Application name: wordpress-beanstalk
           Region: us-west-2
@@ -94,13 +94,13 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
         INFO: createEnvironment is starting.
 
 ## Networking configuration
-Modify the configuration files in the .ebextensions folder with the IDs of your [default VPC and subnets](https://console.aws.amazon.com/vpc/home#subnets:filter=default), and [your public IP address](https://www.google.com/search?q=what+is+my+ip). 
+Modify the configuration files in the .ebextensions folder with the IDs of your [default VPC and subnets](https://console.aws.amazon.com/vpc/home#subnets:filter=default), and [your public IP address](https://www.google.com/search?q=what+is+my+ip).
 
- - `.ebextensions/efs-create.config` creates an EFS file system and mount points in each Availability Zone / subnet in your VPC.
- - `.ebextensions/ssh.config` restricts access to your environment to your IP address to protect it during the WordPress installation process.
+ - `.ebextensions/efs-create.config` creates an EFS file system and mount points in each Availability Zone / subnet in your VPC. Identify your default VPC and subnet IDs in the [VPC console](https://console.aws.amazon.com/vpc/home#subnets:filter=default). If you have not used the console before, use the region selector to select the same region that you chose for your environment.
+ - `.ebextensions/ssh.config` restricts access to your environment to your IP address to protect it during the WordPress installation process. Replace the placeholder IP address near the top of the file with your public IP address.
 
 ## Deploy WordPress to your environment
-Deploy the project code to your Elastic Beanstalk environment. 
+Deploy the project code to your Elastic Beanstalk environment.
 
 First, confirm that your environment is `Ready` with `eb status`. Environment creation takes about 15 minutes due to the RDS DB instance provisioning time.
 
@@ -113,7 +113,7 @@ First, confirm that your environment is `Ready` with `eb status`. Environment cr
 
 This project includes a configuration file (`loadbalancer-sg.config`) that creates a security group and assigns it to the environment's load balancer, using the IP address that you configured in `ssh.config` to restrict HTTP access on port 80 to connections from your network. Otherwise, an outside party could potentially connect to your site before you have installed WordPress and configured your admin account.
 
-You can [view the related SGs in the EC2 console](https://console.aws.amazon.com/ec2/v2/home#SecurityGroups:search=wordpress-beanstalk). In the top right corner, choose the region in which you created your environment.
+You can [view the related SGs in the EC2 console](https://console.aws.amazon.com/ec2/v2/home#SecurityGroups:search=wordpress-beanstalk).
 
 ## Install WordPress
 
@@ -138,8 +138,7 @@ The hash salt can be any value but shouldn't be stored in source control. Use `e
     AUTH_KEY, SECURE_AUTH_KEY, LOGGED_IN_KEY, NONCE_KEY, AUTH_SALT, SECURE_AUTH_SALT, NONCE_SALT
 
 ```Shell
-~/wordpress-beanstalk$ eb setenv AUTH_KEY=randomnumbersandletters89237492374
-~/wordpress-beanstalk$ eb setenv SECURE_AUTH_KEY=ah24h3drfh97623ljkhsdf293t5fghks
+~/wordpress-beanstalk$ eb setenv AUTH_KEY=29dl39gksao SECURE_AUTH_KEY=ah24h3drfh LOGGED_IN_KEY=xmf7v0k27d5fj3 ...
 ...
 ```
 
