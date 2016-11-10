@@ -34,7 +34,7 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
 2. Download the configuration files in this repository.
 
-        ~$ curl https://github.com/awslabs/eb-php-wordpress/releases/download/v1.0/eb-php-wordpress-v1.zip -o eb-php-wordpress.zip
+        ~$ wget https://github.com/awslabs/eb-php-wordpress/releases/download/v1.0/eb-php-wordpress-v1.zip
 
 3. Extract WordPress and change the name of the folder.
 
@@ -44,7 +44,7 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
 4. Extract the configuration files over the WordPress installation.
 
-        ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress.zip
+        ~/wordpress-beanstalk$ unzip ~/eb-php-wordpress-v1.zip
          creating: .ebextensions/
         inflating: .ebextensions/dev.config
         inflating: .ebextensions/efs-create.config
