@@ -59,7 +59,7 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
 1. Configure a local EB CLI repository with the PHP platform. Choose a [supported region](http://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region) that is close to you.
 
-        ~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-
+        ~/wordpress-beanstalk$ eb init --platform php7.0 --region us-west-2
         Application wordpress-beanstalk has been created.
 
 2. Configure SSH. Create a key that Elastic Beanstalk will assign to the EC2 instances in your environment to allow you to connect to them later. You can also choose an existing key pair if you have the private key locally.
