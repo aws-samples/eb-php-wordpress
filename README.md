@@ -1,4 +1,8 @@
 # Deploying WordPress on Elastic Beanstalk
+Use the EB CLI to create an Elastic Beanstalk environment with an attached RDS DB and EFS file system to provide WordPress with a MySQL database and shared storage for uploaded files.
+
+You can also run the database outside of the environment to decouple compute and database resources. See the Elastic Beanstalk Developer Guide for a tutorial with instructions that use an external DB instance: [Deploying a High-Availability WordPress Website with an External Amazon RDS Database to Elastic Beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/php-hawordpress-tutorial.html). The tutorial also uses the AWS Management Console instead of the EB CLI.
+
 These instructions were tested with WordPress 4.6.1
 
 ## Install the EB CLI
