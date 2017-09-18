@@ -1,3 +1,9 @@
+# custom-vpc branch
+This branch uses a modified mount script for the EFS file system that avoids the need to enable DNS hostname resolution on a custom VPC. The script uses the AWS CLI to get information about mount points from EFS, so you must add EFS read permissions to your environment's [instance profile](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html#concepts-roles-instance).
+
+- [Adding Permissions to the Default Instance Profile](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html#iam-instanceprofile-addperms)
+- [Creating an Instance Profile](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html#iam-instanceprofile-create)
+
 # Deploying WordPress on Elastic Beanstalk
 Use the EB CLI to create an Elastic Beanstalk environment with an attached RDS DB and EFS file system to provide WordPress with a MySQL database and shared storage for uploaded files.
 
