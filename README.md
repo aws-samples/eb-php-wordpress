@@ -5,7 +5,7 @@ NOTE: Amazon EFS is not available in all AWS regions. Check the [Region Table](h
 
 You can also run the database outside of the environment to decouple compute and database resources. See the Elastic Beanstalk Developer Guide for a tutorial with instructions that use an external DB instance: [Deploying a High-Availability WordPress Website with an External Amazon RDS Database to Elastic Beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/php-hawordpress-tutorial.html). The tutorial also uses the AWS Management Console instead of the EB CLI.
 
-These instructions were tested with WordPress 4.6.1
+These instructions were tested with WordPress 4.8.3
 
 ## Install the EB CLI
 
@@ -36,7 +36,7 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 
 1. Download WordPress.
 
-        ~$ curl https://wordpress.org/wordpress-4.6.1.tar.gz -o wordpress.tar.gz
+        ~$ curl https://wordpress.org/wordpress-4.8.3.tar.gz -o wordpress.tar.gz
 
 2. Download the configuration files in this repository.
 
