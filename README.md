@@ -176,6 +176,15 @@ When the update completes, open the site.
 
 Refresh the site several times to verify that all instances are reading from the EFS file system. Create posts and upload files to confirm functionality.
 
+# Updating WordPress
+Do not use the update functionality within WordPress or update your source files to use a new version. Both of these actions can result in your post URLs returning 404 errors even though they are still in the database and file system.
+
+To update WordPress, perform these steps.
+1. Export your posts to an XML file with the export tool in the WordPress admin console.
+2. Deploy and install the new version of WordPress to Elastic Beanstalk with the same steps that you used to install the previous version. To avoid downtime, you can create a new environment with the new version.
+3. On the new version, install the WordPress importer tool in the admin console and use it to import the XML file containing your posts. If the posts were created by the admin user on the old version, assign them to the admin user on the new site instead of trying to import the admin user.
+4. If you deployed the new version to a separate environment, do a [CNAME swap](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.CNAMESwap.html) to redirect users from the old site to the new site.
+
 # Backup
 
 Now that you've gone through all the trouble of installing your site, you will want to back up the data in RDS and EFS that your site depends on. See the following topics for instructions.
