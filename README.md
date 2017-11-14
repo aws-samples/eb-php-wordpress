@@ -14,10 +14,10 @@ The EB CLI integrates with Git and simplifies the process of creating environmen
 If you have pip, use it to install the EB CLI.
 
 ```Shell
-$ pip install --user --upgrade awsebcli
+$ pip install awsebcli
 ```
 
-Add the local install location to your OS's path variable.
+Add the local install location to your OS's path variable. The installation path depends on where you installed Python. Note that it is recommended to install Python in your user directory, and avoid using the version of Python that came with your operating system.
 
 ###### Linux
 ```Shell
@@ -25,7 +25,7 @@ $ export PATH=~/.local/bin:$PATH
 ```
 ###### OS-X
 ```Shell
-$ export PATH=~/Library/Python/3.4/bin:$PATH
+$ export PATH=~/Library/Python/3.6/bin:$PATH
 ```
 ###### Windows
 Add `%USERPROFILE%\AppData\Roaming\Python\Scripts` to your PATH variable. Search for **Edit environment variables for your account** in the Start menu.
@@ -102,14 +102,14 @@ If you don't have pip, follow the instructions [here](http://docs.aws.amazon.com
 ## Networking configuration
 Modify the configuration files in the .ebextensions folder with the IDs of your [default VPC and subnets](https://console.aws.amazon.com/vpc/home#subnets:filter=default), and [your public IP address](https://www.google.com/search?q=what+is+my+ip).
 
+ - `.ebextensions/dev.config` restricts access to your environment to your IP address to protect it during the WordPress installation process. Replace the placeholder IP address near the top of the file with your public IP address.
  - `.ebextensions/efs-create.config` creates an EFS file system and mount points in each Availability Zone / subnet in your VPC. Identify your default VPC and subnet IDs in the [VPC console](https://console.aws.amazon.com/vpc/home#subnets:filter=default). If you have not used the console before, use the region selector to select the same region that you chose for your environment.
 
-  ### WARNING: EFS lifecycle
-  Any resources that you create with configuration files are tied to the lifecycle of your environment. They are lost if you terminate your environment or remove the configuration file.
-  Use this configuration file to create an Amazon EFS file system in a development environment. When you no longer need the environment and terminate it, the file system is cleaned up for you.
-  For production environments, consider creating the file system using Amazon EFS directly.
-  For details, see [Creating an Amazon Elastic File System](http://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html).
- - `.ebextensions/dev.config` restricts access to your environment to your IP address to protect it during the WordPress installation process. Replace the placeholder IP address near the top of the file with your public IP address.
+### WARNING: EFS lifecycle
+Any resources that you create with configuration files are tied to the lifecycle of your environment. They are lost if you terminate your environment or remove the configuration file.
+Use this configuration file to create an Amazon EFS file system in a development environment. When you no longer need the environment and terminate it, the file system is cleaned up for you.
+For production environments, consider creating the file system using Amazon EFS directly.
+For details, see [Creating an Amazon Elastic File System](http://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html).
 
 ## Deploy WordPress to your environment
 Deploy the project code to your Elastic Beanstalk environment.
